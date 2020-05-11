@@ -33,14 +33,17 @@ exports.handler = async (event, context) => {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  const querystring = require('querystring');
-
+//   const querystring = require('querystring');
+  let params;
   const postcss = require('postcss');
   const fs = require('fs');
 
   // When the method is POST, the name will no longer be in the event’s
   // queryStringParameters – it’ll be in the event body encoded as a query string
-  const params = querystring.parse(event.body);
+  if (event.body) {
+        params = JSON.parse(event.body);
+    }
+
   const css = params.css;
   const config = params.config;
 
@@ -49,10 +52,6 @@ exports.handler = async (event, context) => {
 //           return console.error(err);
 //       }
 //   });
-return {
-    statusCode: 200,
-    body: result.css
-}
     // console.log(css);
     postcss([
         require('tailwindcss')//('/tmp/tailwind.js')
