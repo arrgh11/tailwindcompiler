@@ -49,6 +49,10 @@ exports.handler = async (event, context) => {
 //           return console.error(err);
 //       }
 //   });
+return {
+    statusCode: 200,
+    body: result.css
+}
     // console.log(css);
     postcss([
         require('tailwindcss')//('/tmp/tailwind.js')
