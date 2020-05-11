@@ -44,7 +44,11 @@ exports.handler = async (event, context) => {
   const css = params.css;
   const config = params.config;
 
-  fs.writeFile('tailwind.js', config, () => true)
+  fs.writeFile('tailwind.js', config, { flag: 'w' }, function(err){
+      if (err) {
+          return console.error(err);
+      }
+  });
     // console.log(css);
     postcss([
         require('tailwindcss')('tailwind.js')
