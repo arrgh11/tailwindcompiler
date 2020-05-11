@@ -27,13 +27,13 @@
 //   console.log('Example app listening on port 8000!')
 // });
 
-import querystring from "querystring";
-
 exports.handler = async (event, context) => {
   // Only allow POST
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
+
+  import querystring from "querystring";
 
   const postcss = require('postcss');
   const fs = require('fs');
