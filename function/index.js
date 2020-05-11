@@ -26,24 +26,18 @@
 // app.listen(8000, () => {
 //   console.log('Example app listening on port 8000!')
 // });
+const postcss = require('postcss');
+const autoprefixer = require('autoprefixer');
+const fs = require('fs');
+const tailwindcss = require('tailwindcss');
 
 exports.handler = async (event, context) => {
   // Only allow POST
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
-
-//   const querystring = require('querystring');
-  let params;
-  const postcss = require('postcss');
-  const fs = require('fs');
-
-  // When the method is POST, the name will no longer be in the event’s
-  // queryStringParameters – it’ll be in the event body encoded as a query string
-  if (event.body) {
-        params = JSON.parse(event.body);
-    }
-
+  let params = JSON.parse(event.body); 
+  
   const css = params.css;
   const config = params.config;
 
@@ -53,17 +47,18 @@ exports.handler = async (event, context) => {
 //       }
 //   });
     // console.log(css);
-    postcss([
-        require('tailwindcss')//('/tmp/tailwind.js')
-    ])
-    .process(css).then(result => {
+   const output = await postcss([tailwindcss])
+    .process(css)
+    .then(result => {
+        // return result.css;
         // fs.unlinkSync('/tmp/tailwind.js')
-        console.log('done');
-        return {
-            statusCode: 200,
-            body: result.css
-        };
-    })
+        return result.css;
+    });
+
+    return {
+        statusCode:200,
+        body: output
+    };
 
   
 };
