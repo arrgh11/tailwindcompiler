@@ -44,13 +44,13 @@ exports.handler = async (event, context) => {
   const css = params.css;
   const config = params.config;
 
-  fs.writeFile('./tailwind.js', config, () => true)
+  fs.writeFile('tailwind.js', config, () => true)
     // console.log(css);
     postcss([
-        require('tailwindcss')('./tailwind.js')
+        require('tailwindcss')('tailwind.js')
     ])
     .process(css).then(result => {
-        fs.unlinkSync('./tailwind.js')
+        fs.unlinkSync('tailwind.js')
         console.log('done');
         return {
             statusCode: 200,
