@@ -33,7 +33,7 @@ exports.handler = async (event, context) => {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  import querystring from "querystring";
+  const querystring = require('querystring');
 
   const postcss = require('postcss');
   const fs = require('fs');
